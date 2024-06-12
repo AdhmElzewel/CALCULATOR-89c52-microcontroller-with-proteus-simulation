@@ -1,6 +1,7 @@
 # CALCULATOR-89c52-microcontroller-with-proteus-simulation
 CALCULATOR 89c52 microcontroller with proteus simulation
-//video: https://youtu.be/0oNZom2P7FQ
+
+###**video: https://youtu.be/0oNZom2P7FQ**
 ##Introduction:-
 We need to design a calculator using a microcontroller, LCD and a keypad smallcalc. first you 
 need to enter the single-digit number then valid operators and in the last another single-digit number. The 
