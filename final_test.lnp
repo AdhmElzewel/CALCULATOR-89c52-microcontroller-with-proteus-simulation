@@ -1,0 +1,4 @@
+".\Objects\STARTUP.obj",
+".\Objects\KEY_LCD.obj" 
+TO ".\Objects\final_test" 
+PRINT(".\Listings\final_test.m51") RAMSIZE(256) 

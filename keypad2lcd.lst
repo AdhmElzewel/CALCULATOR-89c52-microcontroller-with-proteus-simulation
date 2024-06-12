@@ -1,0 +1,233 @@
+A51 MACRO ASSEMBLER  KEYPAD2LCD                                                           03/25/2023 20:22:19 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\keypad2lcd.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE keypad2lcd.a51 SET(SMALL) DEBUG PRINT(.\Listings\keypad2lcd.lst) OBJECT
+                      (.\Objects\keypad2lcd.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0000H
+                       2             
+0000 900102            3     MOV DPTR,#look_up_table
+0003                   4     GO_AHEAD:
+0003 7F80              5     MOV R7,#80H ;THE CURSUR START FROM THIS POSTION 
+                       6     
+0005 7438              7     MOV A,#38H ;init. LCD 2 lines ,5x7 matrix
+0007 11D6              8     ACALL COMMAND ;issue command
+0009 740E              9     MOV A,#0EH ;LCD on, cursor on
+000B 11D6             10     ACALL COMMAND ;issue command
+                      11     
+000D 7401             12     MOV A,#01H ;cursor: line 1, pos. 6
+000F 11D6             13     ACALL COMMAND ;command subroutine
+                      14     
+                      15     
+                      16     
+0011 759000           17     MOV P1,#00000000B  
+                      18     
+0014 75B0FF           19     LOOP_AGAIN:MOV P3,#0FFh 
+0017 C2B0             20          CLR P3.0 
+0019 20B407           21          JB P3.4,TO_1  
+001C 7400             22          MOV A,#0D  
+001E 11C4             23          ACALL LCD_0
+0020 30B4FD           24              H0:JNB P3.4,H0  
+0023 20B507           25     TO_1:JB P3.5,TO_2 
+0026 7401             26           MOV A,#1D
+0028 11C4             27           ACALL LCD_0
+002A 30B5FD           28               H1:JNB P3.5,H1        
+002D 20B607           29     TO_2:JB P3.6,TO_3
+0030 7402             30           MOV A,#2D
+0032 11C4             31           ACALL LCD_0
+0034 30B6FD           32               H2:JNB P3.6,H2        
+0037 20B707           33     TO_3:JB P3.7,TO_4
+003A 7403             34           MOV A,#3D
+003C 11C4             35           ACALL LCD_0
+003E 30B7FD           36               H3:JNB P3.7,H3        
+0041 D2B0             37     TO_4:SETB P3.0
+0043 C2B1             38           CLR P3.1
+0045 20B407           39           JB P3.4,TO_5
+0048 7404             40           MOV A,#4D
+004A 11C4             41           ACALL LCD_0
+004C 30B4FD           42               H4:JNB P3.4,H4        
+004F 20B507           43     TO_5:JB P3.5,TO_6
+0052 7405             44           MOV A,#5D
+0054 11C4             45           ACALL LCD_0
+0056 30B5FD           46               H5:JNB P3.5,H5        
+0059 20B607           47     TO_6:JB P3.6,TO_7
+005C 7406             48           MOV A,#6D
+005E 11C4             49           ACALL LCD_0
+0060 30B6FD           50               H6:JNB P3.6,H6        
+0063 20B707           51     TO_7:JB P3.7,TO_8
+0066 7407             52           MOV A,#7D
+0068 11C4             53           ACALL LCD_0
+006A 30B7FD           54               H7:JNB P3.7,H7        
+006D D2B1             55     TO_8:SETB P3.1
+006F C2B2             56           CLR P3.2
+0071 20B407           57           JB P3.4,TO_9
+A51 MACRO ASSEMBLER  KEYPAD2LCD                                                           03/25/2023 20:22:19 PAGE     2
+
+0074 7408             58           MOV A,#8D
+0076 11C4             59           ACALL LCD_0
+0078 30B4FD           60               H8:JNB P3.4,H8        
+007B 20B507           61     TO_9:JB P3.5,TO_10
+007E 7409             62           MOV A,#9D
+0080 11C4             63           ACALL LCD_0
+0082 30B5FD           64               H9:JNB P3.5,H9        
+0085 20B607           65     TO_10:JB P3.6,TO_11
+0088 740A             66            MOV A,#10D
+008A 11C4             67            ACALL LCD_0
+008C 30B6FD           68                H10:JNB P3.6,H10     
+008F 20B707           69     TO_11:JB P3.7,TO_12
+0092 740B             70            MOV A,#11D
+0094 11C4             71            ACALL LCD_0
+0096 30B7FD           72                H11:JNB P3.7,H11     
+0099 D2B2             73     TO_12:SETB P3.2
+009B C2B3             74            CLR P3.3
+009D 20B403           75            JB P3.4,TO_13
+00A0 020003           76            LJMP GO_AHEAD
+00A3 20B507           77     TO_13:JB P3.5,TO_14
+00A6 740D             78            MOV A,#13D
+00A8 11C4             79            ACALL LCD_0
+00AA 30B5FD           80                H13:JNB P3.5,H13     
+00AD 20B607           81     TO_14:JB P3.6,TO_15
+00B0 740E             82            MOV A,#14D
+00B2 11C4             83            ACALL LCD_0
+00B4 30B6FD           84                H14:JNB P3.6,H14     
+00B7 20B707           85     TO_15:JB P3.7,TO_FINAL
+00BA 740F             86            MOV A,#15D
+00BC 11C4             87            ACALL LCD_0
+00BE 30B7FD           88                H15:JNB P3.7,H15     
+00C1 020014           89     TO_FINAL:   LJMP LOOP_AGAIN
+                      90     
+00C4                  91     LCD_0:       
+                      92     
+00C4 93               93     MOVC A,@A+DPTR 
+00C5 11E1             94     ACALL DATA_DISPLAY
+                      95     
+00C7 0F               96     INC R7  ;INCREMENT CURSOR POSITION 
+00C8 BF9005           97     CJNE R7,#090H,LINE_1
+00CB                  98     LINE_2:
+00CB 7FC0             99     MOV R7,#0C0H
+00CD EF              100     MOV A,R7
+00CE 8001            101     SJMP GO
+00D0                 102     LINE_1:
+00D0 EF              103     MOV A,R7 ;clear LCD command
+00D1                 104     GO:
+00D1 11D6            105     ACALL COMMAND ;issue command
+00D3 11F5            106     ACALL DELAY_LONG
+                     107     
+00D5 22              108     RET
+                     109     
+00D6                 110     COMMAND:
+00D6 11EC            111     ACALL DELAY ;is LCD ready?
+00D8 F590            112     MOV P1,A ;issue command code
+00DA C2A0            113     CLR P2.0 ;RS=0 for command
+00DC D2A1            114     SETB P2.1 ;E=1 for H-to-L pulse
+00DE C2A1            115     CLR P2.1 ;E=0,latch in
+00E0 22              116     RET
+00E1                 117     DATA_DISPLAY:
+00E1 11EC            118     ACALL DELAY ;is LCD ready?
+00E3 F590            119     MOV P1,A ;issue data
+00E5 D2A0            120     SETB P2.0 ;RS=1 for data
+00E7 D2A1            121     SETB P2.1 ;E=1 for H-to-L pulse
+00E9 C2A1            122     CLR P2.1 ;E=0,latch in
+00EB 22              123     RET
+A51 MACRO ASSEMBLER  KEYPAD2LCD                                                           03/25/2023 20:22:19 PAGE     3
+
+00EC                 124     DELAY:
+00EC 78FF            125     mov R0,#0FFH
+00EE 79FF            126     L1:mov R1,#0FFH
+00F0 D9FE            127     L2:DJNZ R1,L2
+00F2 D8FA            128     DJNZ R0,L1
+00F4 22              129     RET
+00F5                 130     DELAY_LONG:
+00F5 780A            131             MOV R0,#10
+00F7 7964            132     L33:MOV R1,#100
+00F9 7A64            133     L22:MOV R2,#100
+00FB DAFE            134     L11:DJNZ R2,L11
+00FD D9FA            135             DJNZ R1,L22
+00FF D8F6            136             DJNZ R0,L33
+0101 22              137     RET
+0102                 138     look_up_table: 
+0102 31              139          DB '1'
+0103 32              140          DB '2'
+0104 33              141          DB '3'
+0105 2B              142          DB '+'
+0106 34              143          DB '4'
+0107 35              144          DB '5'
+0108 36              145          DB '6'
+0109 2D              146          DB '-'
+010A 37              147          DB '7' 
+010B 38              148          DB '8'
+010C 39              149          DB '9'
+010D 2A              150          DB '*'
+010E 4E              151          DB 'N'
+010F 30              152          DB '0'
+0110 3D              153          DB '='
+0111 2F              154          DB '/'
+                     155     END
+A51 MACRO ASSEMBLER  KEYPAD2LCD                                                           03/25/2023 20:22:19 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+COMMAND. . . . . .  C ADDR   00D6H   A   
+DATA_DISPLAY . . .  C ADDR   00E1H   A   
+DELAY. . . . . . .  C ADDR   00ECH   A   
+DELAY_LONG . . . .  C ADDR   00F5H   A   
+GO . . . . . . . .  C ADDR   00D1H   A   
+GO_AHEAD . . . . .  C ADDR   0003H   A   
+H0 . . . . . . . .  C ADDR   0020H   A   
+H1 . . . . . . . .  C ADDR   002AH   A   
+H10. . . . . . . .  C ADDR   008CH   A   
+H11. . . . . . . .  C ADDR   0096H   A   
+H13. . . . . . . .  C ADDR   00AAH   A   
+H14. . . . . . . .  C ADDR   00B4H   A   
+H15. . . . . . . .  C ADDR   00BEH   A   
+H2 . . . . . . . .  C ADDR   0034H   A   
+H3 . . . . . . . .  C ADDR   003EH   A   
+H4 . . . . . . . .  C ADDR   004CH   A   
+H5 . . . . . . . .  C ADDR   0056H   A   
+H6 . . . . . . . .  C ADDR   0060H   A   
+H7 . . . . . . . .  C ADDR   006AH   A   
+H8 . . . . . . . .  C ADDR   0078H   A   
+H9 . . . . . . . .  C ADDR   0082H   A   
+L1 . . . . . . . .  C ADDR   00EEH   A   
+L11. . . . . . . .  C ADDR   00FBH   A   
+L2 . . . . . . . .  C ADDR   00F0H   A   
+L22. . . . . . . .  C ADDR   00F9H   A   
+L33. . . . . . . .  C ADDR   00F7H   A   
+LCD_0. . . . . . .  C ADDR   00C4H   A   
+LINE_1 . . . . . .  C ADDR   00D0H   A   
+LINE_2 . . . . . .  C ADDR   00CBH   A   
+LOOK_UP_TABLE. . .  C ADDR   0102H   A   
+LOOP_AGAIN . . . .  C ADDR   0014H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+TO_1 . . . . . . .  C ADDR   0023H   A   
+TO_10. . . . . . .  C ADDR   0085H   A   
+TO_11. . . . . . .  C ADDR   008FH   A   
+TO_12. . . . . . .  C ADDR   0099H   A   
+TO_13. . . . . . .  C ADDR   00A3H   A   
+TO_14. . . . . . .  C ADDR   00ADH   A   
+TO_15. . . . . . .  C ADDR   00B7H   A   
+TO_2 . . . . . . .  C ADDR   002DH   A   
+TO_3 . . . . . . .  C ADDR   0037H   A   
+TO_4 . . . . . . .  C ADDR   0041H   A   
+TO_5 . . . . . . .  C ADDR   004FH   A   
+TO_6 . . . . . . .  C ADDR   0059H   A   
+TO_7 . . . . . . .  C ADDR   0063H   A   
+TO_8 . . . . . . .  C ADDR   006DH   A   
+TO_9 . . . . . . .  C ADDR   007BH   A   
+TO_FINAL . . . . .  C ADDR   00C1H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
